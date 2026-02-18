@@ -1,4 +1,5 @@
-// Sum of Two Integers ------> Key Concept: Binary Addition
+// Sum of Two Integers without using + and - operator
+// ------> Key Concept: Binary Addition
 // When adding two numbers in binary:
 
 // XOR (^) gives the sum without carry
@@ -131,3 +132,21 @@
 //         return xor1^xor2;
 //     }
 // };
+
+// 190. Reverse Bits
+// class Solution {
+// public:
+//     int reverseBits(int n) {
+//         if(n==0) return 0;
+//         int result = 0;
+//         for(int i=0; i<32; i++) {
+//             int lsb = n&1;
+//             result = result<<1;
+//             result = result | lsb;
+//             n = n>>1;
+//         }
+//         return result;
+//     }
+// };
+
+

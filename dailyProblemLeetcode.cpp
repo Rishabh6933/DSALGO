@@ -16,3 +16,46 @@
 //         return ans;
 //     }
 // };
+
+
+// 693. Binary Number with Alternating Bits
+
+// <--------------APPROACH 1-------------->
+// class Solution {
+    // public:
+    //     bool hasAlternatingBits(int n) {
+        //         int currbit = n%2;
+        //         n = n/2;
+        //         while(n>0) {
+            //             if(currbit == n%2) return false;
+            //             currbit = n%2;
+//             n = n/2;
+//         }
+//         return true;
+//     }
+// };
+
+
+// <--------------APPROACH 2-------------->
+// This will produce a number with all set bits equal to 1
+//                 result = n ^ (n>>1)
+// and then we will do (result & (result+1))
+// this will make it equal to zero then then the given number have
+// alternating bits
+
+//              n     =      1   0   1   0   1
+//             n>>1   =      0   1   0   1   0
+// result=n ^ (n>>1)  =      1   1   1   1   1
+//          (result+1)=      0   0   0   0   1  
+// result & (result+1)=      0   0   0   0   0     
+
+
+
+// class Solution {
+// public:
+//     bool hasAlternatingBits(int n) {
+//         long long result = n ^ (n>>1);
+//         if((result & (result+1)) == 0) return true;
+//         return false;
+//     }
+// };
