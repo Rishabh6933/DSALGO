@@ -52,3 +52,92 @@
 //     return ans.substr(1);  // " blue is sky the" → "blue is sky the"
 // }
 // ```
+
+
+// 1903. Largest Odd Number in String
+// class Solution {
+// public:
+//     string largestOddNumber(string num) {
+//         int n = num.size();
+//         for(int i=n-1; i>=0; i--) {
+//             if(num[i] == '1' || num[i] == '3' || num[i] == '5' || num[i] == '7' || num[i] == '9') {
+//                 return num.substr(0,i+1);
+//             }
+//         }
+//         return "";
+//     }
+// };
+
+
+
+// 14. Longest Common Prefix
+// class Solution {
+// public:
+//     string longestCommonPrefix(vector<string>& strs) {
+//         if(strs.empty())    return "";
+//         int n = strs.size();
+//         sort(strs.begin(), strs.end());
+//         string first = strs[0];
+//         string last = strs[n-1];
+//         string ans;
+//         int mini = min(first.size(), last.size());
+
+//         for(int i=0; i<mini; i++) {
+//             if(first[i] == last[i]) ans += first[i]; 
+//             else break;
+//         }
+//         return ans;
+//     }
+// };
+
+
+// 205. Isomorphic Strings
+// class Solution {
+// public:
+//     bool isIsomorphic(string s, string t) {
+//         if(s.size() != t.size()) return false;
+
+//         vector<int> map1(256, -1);
+//         vector<int> map2(256, -1);
+
+//         for(int i=0; i<s.size(); i++) {
+//             if(map1[s[i]] == -1 && map2[t[i]] == -1) {
+//                 map1[s[i]] = t[i];
+//                 map2[t[i]] = s[i];
+//             }
+//             else if(map1[s[i]] != t[i] || map2[t[i]] != s[i]) return false;
+//         }
+//         return true;
+//     }
+// };
+
+// 796. Rotate String
+
+// ## NOTE ---> Just roatate the string one by one and check if it is equal to goal or not     
+
+// class Solution {
+// public:
+//     bool rotateString(string s, string goal) {
+//         if(s.size() != goal.size()) return false; 
+//         for(int i=0; i<s.size(); i++) {
+//             if(s == goal) return true;
+//             rotate(s.begin(), s.begin() + 1, s.end());
+//         }
+//         return false;
+//     }
+// };
+
+
+
+
+// ## NOTE ---> If you concatenate a string with itself,
+//              it will contain all rotations as a substring in it
+
+// class Solution {
+// public:
+//     bool rotateString(string s, string goal) {
+//         if(s.size() != goal.size()) return false; 
+//         if((s+s).find(goal) != string::npos) return true;
+//         return false;
+//     }
+// };
