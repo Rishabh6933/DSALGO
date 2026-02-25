@@ -91,6 +91,8 @@
 // };
 
 
+
+
 // 205. Isomorphic Strings
 // class Solution {
 // public:
@@ -111,6 +113,10 @@
 //     }
 // };
 
+
+
+
+
 // 796. Rotate String
 
 // ## NOTE ---> Just roatate the string one by one and check if it is equal to goal or not     
@@ -127,9 +133,6 @@
 //     }
 // };
 
-
-
-
 // ## NOTE ---> If you concatenate a string with itself,
 //              it will contain all rotations as a substring in it
 
@@ -141,6 +144,8 @@
 //         return false;
 //     }
 // };
+
+
 
 
 // 242. Valid Anagram
