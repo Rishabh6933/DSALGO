@@ -141,3 +141,28 @@
 //         return false;
 //     }
 // };
+
+
+// 242. Valid Anagram
+// Basic approach is you can sort the string and compare whether it is same or not
+
+// Optimised approach is just make a array and perform a sort of hasing increment and decrement
+// for every element in the string s and t respectively
+// class Solution {
+// public:
+//     bool isAnagram(string s, string t) {
+//         if(s.size() != t.size()) return false;
+//         int count[26] = {0};
+
+//         for(int i=0; i<s.size(); i++) {
+//             count[s[i] - 'a']++;
+//             count[t[i] - 'a']--;
+//         }
+
+//         for(int i=0; i<26; i++) {
+//             if(count[i] != 0) return false;
+//         }
+
+//         return true;
+//     }
+// };
