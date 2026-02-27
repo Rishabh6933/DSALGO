@@ -171,3 +171,129 @@
 //         return true;
 //     }
 // };
+
+
+// 451. Sort Characters By Frequency
+// class Solution {
+// public:
+//     string frequencySort(string s) {
+//         unordered_map<char,int> freq;
+//         // count frequency
+//         for(char c : s) {
+//             freq[c]++;
+//         }
+
+//         // create buckets
+//         vector<vector<char>> bucket(s.size() + 1);
+
+//         for(auto &p : freq) {
+//             bucket[p.second].push_back(p.first);
+//         }
+
+//         // create result
+//         string result;
+    
+//         for(int i=s.size(); i>0; i--) {
+//             for(char c : bucket[i]) {
+//                 result.append(i,c);
+//             }
+//         }
+//         return result;
+//     }
+// };
+
+
+// <--------------------ANOTHER APPROACH-------------------->
+// class Solution {
+// public:
+//     string frequencySort(string s) {
+//         unordered_map<char, int> freq;
+//         for(char c : s) freq[c]++;
+
+//         vector<pair<char, int>> chars(freq.begin(), freq.end());
+//         sort(chars.begin(), chars.end(), [](auto& a, auto& b) {
+//             return a.second > b.second;
+//         });
+
+//         string result;
+//         for(auto& p : chars){
+//             result.append(p.second, p.first);
+//         }
+//         return result;
+//     }
+// };
+
+
+// 1614. Maximum Nesting Depth of the Parentheses
+// class Solution {
+// public:
+//     int maxDepth(string s) {
+//         int count = 0;
+//         int result = 0;
+//         for(char c : s) {
+//             if(c == '(' ) {
+//                 count++;
+//                 if(count > result) result = count;
+//             }
+//             else if(c == ')') count--;
+//         }
+//         return result;
+//     }
+// };
+
+
+// 13. Roman to Integer
+// class Solution {
+// public:
+//     int romanToInt(string s) {
+//         int result=0;
+//         int value[128] = {0};
+//         value['I'] = 1;
+//         value['V'] = 5;
+//         value['X'] = 10;
+//         value['L'] = 50;
+//         value['C'] = 100;
+//         value['D'] = 500;
+//         value['M'] = 1000;
+
+//         for(int i=0; i<s.size(); i++) {
+//             if(i+1 < s.size() && value[s[i]] < value[s[i+1]]) {
+//                 result += (value[s[i+1]] - value[s[i]]);
+//                 i++;
+//             }
+//             else
+//                 result += value[s[i]];
+//         }
+//         return result;
+//     }
+// };
+
+
+
+// 8. String to Integer (atoi)
+// class Solution {
+// public:
+//     int myAtoi(string s) {
+//         long result = 0;
+//         int i=0;
+//         while(i<s.size() && (s[i] == ' ')) {
+//              i++;
+//         }
+
+//         int sign = +1;
+
+//         if(i<s.size() && (s[i] == '-' || s[i] == '+')) {
+//             sign = (s[i] == '-') ? -1 : 1;
+//             i++;
+//         }
+
+//         while(i < s.size() && isdigit(s[i])) {
+//             result = result*10 + s[i] - '0';
+
+//             if(result * sign > INT_MAX) return INT_MAX;
+//             if(result * sign < INT_MIN) return INT_MIN;
+//             i++;
+//         }
+//         return (int)(result*sign);
+//     }
+// };
