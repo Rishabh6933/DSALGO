@@ -297,3 +297,104 @@
 //         return (int)(result*sign);
 //     }
 // };
+
+
+
+// 5. Longest Palindromic Substring
+// class Solution {
+// public:
+//     string longestPalindrome(string s) {
+//         // Edge case: single character or empty string is already a palindrome
+//         if(s.size() <= 1) return s;
+        
+//         int maxLen = INT_MIN;  // Track the length of longest palindrome found
+//         int n = s.size();
+//         int st = 0, end = 0;   // Track start and end indices of longest palindrome
+        
+//         // PART 1: Check for ODD-length palindromes (center is a single character)
+//         // Example: "aba" has center at 'b'
+//         for(int i = 0; i < n; i++) {
+//             // Start with center at position i
+//             int left = i;
+//             int right = i;
+            
+//             // Expand outward while characters match and within bounds
+//             // left moves leftward (--), right moves rightward (++)
+//             while(left >= 0 && right < n && s[left] == s[right]) {
+//                 left--;   // Move left pointer outward
+//                 right++;  // Move right pointer outward
+//             }
+//             // After loop: left and right have gone ONE step beyond the palindrome
+            
+//             // Calculate actual palindrome length
+//             // Why (right - left - 1)?
+//             // - right is 1 position AFTER the palindrome ends
+//             // - left is 1 position BEFORE the palindrome starts
+//             // - So actual length = right - left - 1
+//             int len = right - left - 1;
+            
+//             // Update if we found a longer palindrome
+//             if(len > maxLen) {
+//                 maxLen = len;
+//                 st = left + 1;   // Actual start is left + 1 (left went too far)
+//                 end = right - 1; // Actual end is right - 1 (right went too far)
+//             }
+//         }
+
+//         // PART 2: Check for EVEN-length palindromes (center is between two characters)
+//         // Example: "abba" has center between the two 'b's
+//         for(int i = 0; i < n; i++) {
+//             // Start with center between positions i and i+1
+//             int left = i;
+//             int right = i + 1;
+            
+//             // Expand outward while characters match and within bounds
+//             while(left >= 0 && right < n && s[left] == s[right]) {
+//                 left--;   // Move left pointer outward
+//                 right++;  // Move right pointer outward
+//             }
+//             // After loop: left and right have gone ONE step beyond the palindrome
+            
+//             // Calculate actual palindrome length (same formula as odd-length)
+//             int len = right - left - 1;
+            
+//             // Update if we found a longer palindrome
+//             if(len > maxLen) {
+//                 maxLen = len;
+//                 st = left + 1;   // Actual start (adjust for overstep)
+//                 end = right - 1; // Actual end (adjust for overstep)
+//             }
+//         }
+        
+//         // Extract and return the longest palindrome substring
+//         // substr(start_position, length)
+//         return s.substr(st, maxLen);
+//     }
+// };
+
+
+
+// 1781. Sum of Beauty of All Substrings
+// class Solution {
+// public:
+//     int beautySum(string s) {
+//         int ans=0;
+//         int n = s.size();
+//         for(int i=0; i<n; i++) {
+//             int freq[26] = {0};
+//             for(int j=i; j<n; j++) {
+//                 freq[s[j] - 'a']++;
+//                 int m_f = 0;
+//                 int l_f = INT_MAX;
+//                 for(int i=0; i<26; i++) {
+//                     if(freq[i] > 0){
+//                         m_f = max(m_f, freq[i]);
+//                         l_f = min(l_f, freq[i]);
+//                     }
+//                 }
+//                 ans += (m_f - l_f);
+//             }
+//         }
+//     return ans;
+//     }
+// };
