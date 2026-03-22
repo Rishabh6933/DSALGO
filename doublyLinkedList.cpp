@@ -231,6 +231,30 @@ void insertBeforeGivenNode(Node* node, int value) {
 
 // Reverse a DLL
 
+// most basic approach is store the data in the stack
+// and then put it in the linked list one by one
+// replacing given elements
+
+// TC --> O(n+n);   two while lop one for storing in stack and other for taking out of it
+// SC --> O(n)      external stack is used
+
+
+// Most Optimsed approach
+Node* reverseDLL(Node* head) {
+    if(head == nullptr || head->next == nullptr) return head;
+
+    Node* prev = nullptr;
+    Node* current = head;
+    
+    while(current) {
+        prev = current->back;
+        current->back = current->next;
+        current->next = prev;
+        current = current->back;
+    }
+    return prev->back;
+}
+
 
 int main() {
     vector<int> arr = {12,5,8,7};
@@ -243,6 +267,7 @@ int main() {
     // head = insertBeforeHead(head, 10);
     // head = insertBeforeTail(head, 10);
     // head = insertBeforeKthElement(head, 3, 10);
-    insertBeforeGivenNode(head->next->next->next, 10);
+    // insertBeforeGivenNode(head->next->next->next, 10);
+    // head = reverseDLL(head);         
     printDLL(head);
 }
