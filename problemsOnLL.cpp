@@ -303,34 +303,6 @@ public:
 */
 
 
-// 234. Palindrome Linked List
-/*
-<----------------------BASIC APPROACH---------------------->
-
-class Solution {
-public:
-    bool isPalindrome(ListNode* head) {
-        stack<int> st;
-        ListNode* temp = head;
-        while(temp) {
-            st.push(temp->val);
-            temp = temp->next;
-        }
-        temp = head;
-        while(temp) {
-            if(temp->val != st.top()) return false;
-            temp = temp->next;
-            st.pop();
-        }
-        return true;
-    }
-};
-
-
-
-
-*/
-
 /*
 876. Middle of the Linked List
 
@@ -410,7 +382,7 @@ public:
         return the node where the cycle begins. 
         If there is no cycle, return null.
 
-
+<----------------------BASIC APPROACH---------------------->
 class Solution {
 public:
     ListNode *detectCycle(ListNode *head) {
@@ -425,7 +397,8 @@ public:
     }
 };
 
-Q. 
+
+<----------------------OPTIMISED APPROACH---------------------->
 class Solution {
 public:
     ListNode *detectCycle(ListNode *head) {
@@ -447,9 +420,246 @@ public:
         return nullptr;
     }
 };
+*/
 
 
+/*
+        find the length of a loop in LL
+
+<----------------------BASIC APPROACH---------------------->
+#include <bits/stdc++.h>
+int lengthOfLoop(Node *head) {
+    Node* temp = head;
+    unordered_map<Node* , int> mpp;
+    int timer = 1;
+    while(temp) {
+        if(mpp.find(temp) != mpp.end()) {
+            int value = mpp[temp];
+            return timer-value;
+        }
+        mpp[temp] = timer;
+        timer++;
+        temp = temp->next;
+
+    }
+    return 0;
+}
+
+<----------------------OPTIMISED APPROACH---------------------->
+int lengthOfLoop(Node *head) {
+    Node* slow = head;
+    Node* fast = head;
+
+    while(fast && fast->next) {
+        slow = slow->next;
+        fast = fast->next->next;
+        if(slow == fast) {
+            int count=1;
+            fast = fast->next;
+            while(slow != fast) {
+                fast = fast->next;
+                count++;
+            }
+            return count;
+        }
+    }
+    return 0;
+}
 
 */
 
 
+
+/*
+234. Palindrome Linked List
+<----------------------BASIC APPROACH---------------------->
+
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        stack<int> st;
+        ListNode* temp = head;
+        while(temp) {
+            st.push(temp->val);
+            temp = temp->next;
+        }
+        temp = head;
+        while(temp) {
+            if(temp->val != st.top()) return false;
+            temp = temp->next;
+            st.pop();
+        }
+        return true;
+    }
+};
+
+<----------------------OPTMISED APPROACH---------------------->
+class Solution {
+public:
+    // reverses list and returns new head
+    ListNode* reverseLL(ListNode* head) {
+        if(head == nullptr || head->next == nullptr) return head;
+
+        ListNode* newHead = reverseLL(head->next); // recurse to last node
+
+        // reverse the link
+        ListNode* front = head->next;
+        front->next = head;
+        head->next = nullptr;
+
+        return newHead; // always the last node, bubbled up
+    }
+
+    bool isPalindrome(ListNode* head) {
+        if(head == nullptr || head->next == nullptr) return true;
+
+        // step 1: find middle — slow stops at end of first half
+        ListNode* slow = head;
+        ListNode* fast = head;
+        while(fast->next && fast->next->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+
+        // step 2: reverse second half
+        ListNode* newHead = reverseLL(slow->next);
+
+        // step 3: compare both halves
+        ListNode* first = head;
+        ListNode* second = newHead;
+        while(second) {
+            if(first->val != second->val) {
+                slow->next = reverseLL(newHead); // restore before return
+                return false;
+            }
+            first = first->next;
+            second = second->next;
+        }
+
+        slow->next = reverseLL(newHead); // restore original list
+        return true;
+    }
+};
+*/
+
+
+/*
+        2095. Delete the Middle Node of a Linked List
+
+class Solution {
+public:
+    ListNode* deleteMiddle(ListNode* head) {
+        if(head == nullptr || head->next == nullptr) return nullptr;
+        ListNode* slow = head;
+        ListNode* fast = head;
+        fast = fast->next->next;
+
+        while(fast && fast->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+
+        ListNode* delNode = slow->next;
+        slow->next = delNode->next;
+        delete delNode;
+        return head;
+    }
+};
+*/
+
+
+/*
+        21. Merge Two Sorted Lists
+
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* list1, ListNode* list2) {
+        ListNode* t1 = list1;
+        ListNode* t2 = list2;
+        ListNode* dummyNode = new ListNode(-1);
+        ListNode* temp = dummyNode;
+
+        while(t1 && t2) {
+            if(t1->val <= t2->val) {
+                temp->next = t1;
+                temp = temp->next;
+                t1 = t1->next;
+            }
+            else if(t2->val < t1->val) {
+                temp->next = t2;
+                temp = temp->next;
+                t2 = t2->next;
+            }
+        }
+        if(t1) {
+            temp->next = t1;
+        }
+        if(t2) {
+            temp->next = t2;
+        }
+        return dummyNode->next;
+    }
+};
+*/
+
+
+/*
+        148. Sort List
+
+#####   Most basic approach that can be used is 
+        put the linked list inside an array
+        then sort the array and put it back into the 
+        Linked list
+
+<----------------------OPTIMISED APPROACH---------------------->
+
+class Solution {
+public:
+    ListNode* findMiddle(ListNode* head) {
+        ListNode* slow = head;
+        ListNode* fast = head->next;
+        while(fast && fast->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        return slow;
+    }
+    ListNode* merge(ListNode* list1, ListNode* list2) {
+        ListNode* dummyNode = new ListNode(-1);
+        ListNode* temp = dummyNode;
+        while(list1 && list2) {
+            if(list1->val <= list2->val) {
+                temp->next = list1;
+                temp = temp->next;
+                list1 = list1->next; 
+            }
+            else {
+                temp->next = list2;
+                temp = temp->next;
+                list2 = list2->next;
+            }
+        }
+        if(list1) temp->next = list1;
+        if(list2) temp->next = list2;
+        ListNode* result = dummyNode->next;
+        delete dummyNode;
+        return result;
+    }
+    ListNode* sortList(ListNode* head) {
+        if(head == nullptr || head->next == nullptr) return head;
+
+        ListNode* middle = findMiddle(head);
+
+        ListNode* leftHead = head;
+        ListNode* rightHead = middle->next;
+        middle->next = nullptr;
+
+        leftHead = sortList(leftHead);
+        rightHead = sortList(rightHead);
+
+        return merge(leftHead, rightHead);
+
+    }
+};
+
+*/
