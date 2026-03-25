@@ -64,9 +64,120 @@ public:
 
 23. Merge k Sorted Lists
 
+class Solution {
+public:
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        priority_queue<ListNode*, vector<ListNode*>, 
+        function<bool(ListNode*, ListNode*)>> pq(
+            [](ListNode* a, ListNode* b) {
+                return a->val > b->val;
+            }
+        );
+
+        for(auto node : lists) {
+            if(node) pq.push(node);
+        }
+
+        ListNode* dummy = new ListNode(0);
+        ListNode* temp = dummy;
+
+        while(!pq.empty()) {
+            ListNode* node = pq.top();
+            pq.pop();
+
+            temp->next = node;
+            temp = temp->next;
+
+            if(node->next) pq.push(node->next);
+        }
+
+        return dummy->next;
+    }
+};
 
 
 
+19. Remove Nth Node From End of List
+
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        ListNode* fast = head;
+        ListNode* slow = head;
+
+        for(int i = 0; i < n; i++) {
+            fast = fast->next;
+        }
+
+        if(fast == nullptr) {
+            ListNode* newHead = head->next;
+            delete head;
+            return newHead;
+        }
+
+        while(fast->next != nullptr) {
+            fast = fast->next;
+            slow = slow->next;
+        }
+
+        ListNode* del = slow->next;
+        slow->next = slow->next->next;
+        delete del;
+
+        return head;
+    }
+};
+
+
+
+143. Reorder List
+
+class Solution {
+public:
+    ListNode* findMiddle(ListNode* head) {
+        ListNode* slow = head;
+        ListNode* fast = head->next;
+
+        while(fast && fast->next) {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        return slow;
+        
+    }
+    
+    ListNode* reverse(ListNode* head) {
+        if(head==nullptr || head->next == nullptr) return head;
+        ListNode* newHead = reverse(head->next);
+
+        ListNode* front = head->next;
+        front->next = head;
+        head->next = nullptr;
+
+        return newHead;
+    }
+    void reorderList(ListNode* head) {
+        ListNode* middle = findMiddle(head);
+
+        ListNode* secondHalf = reverse(middle->next);
+        middle->next = nullptr;
+
+        ListNode* first = head;
+        ListNode* second = secondHalf;
+
+        while(second) {
+            ListNode* firstFront = first->next;
+            ListNode* secondFront = second->next;
+
+            first->next = second;
+            second->next = firstFront;
+
+            first = firstFront;
+            second = secondFront;
+        }
+
+    }
+};
 
 
 
