@@ -663,3 +663,315 @@ public:
 };
 
 */
+
+
+/*
+
+160. Intersection of Two Linked Lists
+
+########    very basic approach is to use a map and store any one LL
+            then traverse thru other and find for the first common node
+            that will be the intersection point
+
+########    different approach is that first traverse the extra distance of the
+            linked list and then continue traversing both the linked list together
+            to find the intersection
+
+class Solution {
+public:
+
+    ListNode* collisionPoint(ListNode *t1, ListNode *t2, int d) {
+        while(d) {
+            d--;
+            t1 = t1->next;
+        }
+        while(t1 != t2) {
+            t1 = t1->next;
+            t2 = t2->next;
+        }
+        return t1;
+    }
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        if(headA == nullptr || headB == nullptr) return nullptr;
+        ListNode* t1 = headA;
+        ListNode* t2 = headB;
+        int sizeA = 0;
+        int sizeB = 0;
+
+        while(t1) { sizeA++; t1 = t1->next; }
+        while(t2) { sizeB++; t2 = t2->next; }
+
+        if(sizeA >= sizeB)
+            return collisionPoint(headA, headB, sizeA-sizeB);
+        else 
+            return collisionPoint(headB, headA, sizeB-sizeA);
+    }
+};
+
+<----------------------OPTIMISED APPROACH---------------------->
+/
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        if(headA == nullptr || headB == nullptr) return nullptr;
+        ListNode* t1 = headA;
+        ListNode* t2 = headB;
+
+        while(t1 != t2) {
+            t1 = t1->next;
+            t2 = t2->next;
+
+            if(t1 == t2) return t1;
+
+            if(t1 == nullptr) t1 = headB;
+            if(t2 == nullptr) t2 = headA;
+        }
+        return t1;
+    }
+};
+*/
+
+
+
+/*
+Add one to a number represented by LL
+
+int helper(Node* temp) {
+    if(temp == nullptr) return 1;
+    int carry = helper(temp->next);
+    temp->data = temp->data + carry;
+
+    if(temp->data < 10) return 0;
+    temp->data = 0;
+    return 1;
+
+}
+
+
+Node *addOne(Node *head)
+{
+    int carry = helper(head);
+    
+    if(carry == 1 ) {
+        Node* newHead = new Node(carry, head);
+        return newHead;
+    }
+    return head;
+}
+*/
+
+/* 
+Delete all occurrences of a given key in a doubly linked list
+
+Node * deleteAllOccurrences(Node* head, int k) {
+    Node* temp = head;
+    while(temp) {
+        if(temp->data == k) {
+            if(temp == head) {
+                head = temp->next;
+            }
+            Node* nextNode = temp->next;
+            Node* prevNode = temp->prev;
+
+            if(nextNode) nextNode->prev = prevNode;
+            if(prevNode) prevNode->next = nextNode;
+
+            delete temp;
+            temp = nextNode;
+        }
+        else
+            temp = temp->next;
+    }
+    return head;
+
+*/
+
+
+
+/*
+25. Reverse Nodes in k-Group            ##MIND BLOWING
+
+class Solution {
+public:
+    ListNode* findKthNode(ListNode* temp, int k) {
+        for(int i=1; i<k; i++) {
+            if(temp == nullptr) return temp;
+            temp = temp->next;
+        }
+        return temp;
+    }
+    ListNode* reverse(ListNode* head) {
+        if(head == nullptr || head->next == nullptr) return head;
+        ListNode* newHead = reverse(head->next);
+        
+        ListNode* front = head->next;
+        front->next = head;
+        head->next = nullptr;
+        return newHead;
+
+    }
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        ListNode* temp = head;
+        ListNode* nextNode = nullptr;
+        ListNode* prevNode = nullptr;
+        while(temp) {
+
+            ListNode* kthNode = findKthNode(temp, k);
+            
+            if(kthNode == nullptr) {
+                if(prevNode) prevNode->next = temp;
+                return head;
+            }
+
+            nextNode = kthNode->next;
+            kthNode->next = nullptr;
+
+            ListNode* reverseHead = reverse(temp);
+
+            if(temp == head) head = reverseHead;
+            else prevNode->next = reverseHead;
+
+            prevNode = temp;
+            temp = nextNode;
+        }
+        return head;
+    }
+};
+*/
+
+
+/*
+61. Rotate List
+
+class Solution {
+public:
+    ListNode* rotateRight(ListNode* head, int k) {
+        if(head == nullptr || head->next == nullptr) return head;
+        ListNode* temp = head;
+        ListNode* tail = head;
+        int size = 1;
+        while(tail->next != nullptr) {
+            size++;
+            tail = tail->next;
+        }
+        if(k % size == 0) return head; 
+        k = k % size;
+        tail->next = head;
+
+        for(int i=1; i<size-k; i++) {
+            temp = temp->next;
+        }
+        head = temp->next;
+        temp->next = nullptr;
+        return head;
+
+    }
+};
+*/
+
+/*
+######## Flatten A Linked List
+
+MIND BLOWING QUESTION
+
+Node* mergeTwoList(Node* List1, Node* List2) {
+	Node* dummyNode = new Node(-1);
+	Node* result = dummyNode;
+	while(List1 && List2) {
+
+		if(List1->data < List2->data) {
+			dummyNode->child = List1;
+			List1 = List1->child;
+		}
+		else {
+			dummyNode->child = List2;
+			List2 = List2->child;
+		}
+		dummyNode = dummyNode->child;
+	}
+	if(List1) dummyNode->child = List1;
+	if(List2) dummyNode->child = List2;
+	return result->child;
+}
+
+
+Node* flattenLinkedList(Node* head) 
+{
+	if(head == nullptr || head->next == nullptr) return head;
+
+	Node* mergedHead = flattenLinkedList(head->next);
+	return mergeTwoList(head, mergedHead);
+};
+
+*/
+
+
+/*
+138. Copy List with Random Pointer
+
+class Solution {
+public:
+    Node* copyRandomList(Node* head) {
+        unordered_map<Node*, Node*> mpp;
+        Node* temp = head;
+        while(temp) {
+            Node* newNode = new Node(temp->val);
+            mpp[temp] = newNode;
+            temp = temp->next;
+        }
+        temp = head;
+
+        while(temp) {
+            Node* copyNode = mpp[temp];
+            copyNode->next = mpp[temp->next];
+            copyNode->random = mpp[temp->random];
+
+            temp = temp->next;
+        }
+        return mpp[head];
+    }
+};
+
+<----------------------OPTIMISED APPROACH---------------------->
+
+class Solution {
+public:
+    Node* copyRandomList(Node* head) {
+        // Insert copy nodes in between
+
+        Node* temp = head;
+        while(temp) {
+            Node* copyElement = new Node(temp->val);
+            Node* nextElement = temp->next;
+            temp->next = copyElement;
+            copyElement->next = nextElement;
+            temp = temp->next->next;
+        }
+
+        // Connect random pointers
+        temp = head;
+        while(temp) {
+            Node* copyElement = temp->next;
+            if(temp->random)
+                copyElement->random = temp->random->next;
+            else
+                copyElement->random = nullptr;
+
+            temp = temp->next->next;
+        }
+
+        // Connect next pointer
+        temp = head;
+        Node* dummyNode = new Node(-1);
+        Node* res = dummyNode;
+        while(temp) {
+            res->next = temp->next;
+            temp->next = temp->next->next;
+
+            res = res->next;
+            temp = temp->next;
+        }
+        return dummyNode->next;
+    }
+};
+*/
