@@ -152,6 +152,139 @@ public:
 
 
 
+78. Subsets
+class Solution {
+public:
+    vector<vector<int>> result;
+
+    void solve(vector<int>& nums, vector<int>& temp, int i) {
+        if(i == nums.size()) {
+            result.push_back(temp);
+            return;
+        }
+
+        temp.push_back(nums[i]);
+        solve(nums, temp, i+1);
+        temp.pop_back();
+        solve(nums, temp, i+1);
+    }
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<int> temp;
+        solve(nums, temp, 0);
+
+        return result;
+    }
+};
+
+
+
+39. Combination Sum
+
+class Solution {
+public:
+    vector<vector<int>> result;
+    vector<int> ele;
+
+    void solve(int i, int target, vector<int>& ele, vector<int>& a) {
+        if(i == a.size()) {
+            if(target == 0) {
+                result.push_back(ele);
+            }
+            return;
+        }
+
+        if(target >= a[i]) {
+            ele.push_back(a[i]);
+            solve(i, target-a[i], ele, a);
+            ele.pop_back();
+        }
+        
+        solve(i+1, target, ele, a);
+    }
+    
+    vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+        solve(0, target, ele, candidates);
+
+        return result;
+    }
+};
+
+
+
+
+
+
+40. Combination Sum II
+
+<----------------------BASIC APPROACH---------------------->
+class Solution {
+public:
+    set<vector<int>> result;
+    vector<int> ele;
+
+    void solve(int i, int target, vector<int>& ele, vector<int>& a) {
+        if(i == a.size()) {
+            if(target == 0) {
+                result.insert(ele);
+            }
+            return;
+        }
+
+        if(target >= a[i]) {
+            ele.push_back(a[i]);
+            solve(i+1, target-a[i], ele, a);
+            ele.pop_back();
+        }
+        solve(i+1, target, ele, a);
+
+    }
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        sort(candidates.begin(), candidates.end());
+
+        solve(0, target, ele, candidates);
+
+        return vector<vector<int>>(result.begin(), result.end());
+    }
+};
+
+
+<----------------------OPTIMISED APPROACH---------------------->
+
+class Solution {
+public:
+    vector<vector<int>> result;
+    vector<int> ele;
+ 
+    void solve(int i, int target, vector<int>& a) {
+        if(target == 0) {
+            result.push_back(ele);
+            return;
+        }
+
+        for(int j=i; j<a.size(); j++) {
+            if(j>i && a[j] == a[j-1]) continue;
+            if(a[j] > target) break;
+
+            ele.push_back(a[j]);
+            solve(j+1, target-a[j], a);
+            ele.pop_back();
+        }
+    }
+    vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+        sort(candidates.begin(), candidates.end());
+        solve(0, target, candidates);
+        return result;
+    }
+};
+
+
+
+
+
+
+
+
+
 
 
 
