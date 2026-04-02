@@ -375,6 +375,8 @@
 
 
 // 1781. Sum of Beauty of All Substrings
+// The beauty of a string is the difference in frequencies between 
+// most frequent and least frequent characters 
 // class Solution {
 // public:
 //     int beautySum(string s) {
